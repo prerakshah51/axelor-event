@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	<grid model="com.axelor.event.db.EventRegistration" title="Event Registration"
+		name="event-registration-grid">
+		<field name="event"></field>
+		<field name="name"></field>
+		<field name="email"></field>
+		<field name="address"></field>
+		<field name="registrationDate"></field>
+		<field name="amount"></field>
+		<field name="emailCheck"></field>
+	</grid>
+
+	<form model="com.axelor.event.db.EventRegistration" title="Event Registration"
+		name="event-registration-form" onLoad="action-event-registration-method-hide-event-field"
+		onNew="action-event-registration-method-hide-event-field"
+		onSave="action-event-registration-method-date-validation,action-event-registration-method-set-computational-fields"
+		width="large">
+		<panel title="Overview" css="panel-teal">
+			<field name="event"></field>
+			<field name="name"></field>
+			<field name="email" onChange="action-event-registration-method-email-validate"></field>
+			<field name="address"></field>
+			<field name="registrationDate"
+				onChange="action-event-registration-method-date-validation,action-event-registration-method-set-amount"></field>
+		</panel>
+		<panel title="Registration Amount" css="panel-teal">
+			<field name="amount"></field>
+		</panel>
+		<panel title="Mail Status" css="panel-teal">
+			<field name="emailCheck" readonly="true" widget="boolean-switch"></field>
+		</panel>
+	</form>
+
+	<action-method name="action-event-registration-method-hide-event-field">
+		<call class="com.axelor.event.web.EventRegistrationController"
+			method="hideEventField" />
+	</action-method>
+
+	<action-method name="action-event-registration-method-set-amount">
+		<call class="com.axelor.event.web.EventRegistrationController"
+			method="setAmount" />
+	</action-method>
+
+	<action-method
+		name="action-event-registration-method-set-computational-fields">
+		<call class="com.axelor.event.web.EventRegistrationController"
+			method="setEventEntryandAmountCollected" />
+	</action-method>
+
+	<action-method name="action-event-registration-method-email-validate">
+		<call class="com.axelor.event.web.EventRegistrationController"
+			method="validateEmail(email)" />
+	</action-method>
+
+	<action-method name="action-event-registration-method-date-validation">
+		<call class="com.axelor.event.web.EventRegistrationController"
+			method="checkEventRegistrationDate" />
+	</action-method>
+
+</object-views>
+  

@@ -1,0 +1,10 @@
+apply plugin: "com.axelor.app-module"
+
+axelor {
+	title "Axelor Event Module"
+	description "Axelor Event Management"
+}
+
+dependencies {
+	compile project(":modules:axelor-message")
+}

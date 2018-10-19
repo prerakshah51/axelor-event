@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	<grid model="com.axelor.event.db.Event" title="Event" name="event-grid">
+		<field name="reference"></field>
+		<field name="startDate"></field>
+		<field name="endDate"></field>
+		<field name="venue"></field>
+		<field name="registrationOpen"></field>
+		<field name="registrationClose"></field>
+		<field name="capacity"></field>
+		<field name="eventFees"></field>
+	</grid>
+
+	<form model="com.axelor.event.db.Event" title="Event" name="event-form"
+		width="large"
+		onSave="action-event-method-date-validation,action-event-method-set-computational-fields"
+		onLoad="action-event-method-set-computational-fields">
+		<toolbar>
+			<button name="importEventRegDetails" title="Import Registration"
+				onClick="action-event-view-import-registration-popup" hideIf="!id" />
+			<button name="printReport" title="Print Event Details"
+				onClick="action-event-report" icon="fa-print" hideIf="!id" />
+			<button name="sendEmail" title="Send Email"
+				onClick="com.axelor.event.web.EventController:sendEmail" icon="fa-envelope"
+				hideIf="!id" />
+		</toolbar>
+		<panel title="Overview" css="panel-teal">
+			<field name="reference"></field>
+			<field name="startDate" onChange="action-event-condition-enddate-date-validation"></field>
+			<field name="endDate" onChange="action-event-condition-enddate-date-validation"></field>
+			<field name="venue"></field>
+			<field name="registrationOpen"
+				onChange="action-event-method-date-validation,action-event-condition-registrationclose-date-validation"></field>
+			<field name="registrationClose"
+				onChange="action-event-method-date-validation,action-event-condition-registrationclose-date-validation"></field>
+			<field name="capacity"></field>
+			<field name="eventFees"></field>
+			<field name="description" colSpan="12"></field>
+		</panel>
+		<panel title="Discount Details" css="panel-teal">
+			<field name="discounts" colSpan="12" onChange="save"></field>
+		</panel>
+		<panel title="Event Registration" css="panel-teal">
+			<!-- <field name="eventRegistration" colSpan="12" onChange="action-event-method-set-computational-fields,save"></field> -->
+			<field name="eventRegistration" colSpan="12"></field>
+		</panel>
+		<panel title="Computational Data" css="panel-teal">
+			<field name="totalEntry" colSpan="4"></field>
+			<field name="amountCollected" colSpan="4"></field>
+			<field name="totalDiscount" colSpan="4"></field>
+		</panel>
+	</form>
+
+	<form name="wizard-import-registration-form" title="Import Registration"
+		model="com.axelor.event.db.Event">
+		<panel>
+			<field name="metaFile" title="Input file" type="many-to-one"
+				target="com.axelor.meta.db.MetaFile" widget="binary-link" />
+			<button name="importBtn" colSpan="4" title="Import"
+				readonlyIf="metaFile == null" onClick="action-event-method-import-registration" />
+		</panel>
+	</form>
+
+	<action-view name="action-event-view-import-registration-popup"
+		title="Import Registartion" model="com.axelor.event.db.Event">
+		<view type="form" name="wizard-import-registration-form" />
+		<view-param name="show-toolbar" value="false" />
+		<view-param name="width" value="800" />
+		<view-param name="popup" value="true" />
+		<view-param name="show-confirm" value="false" />
+		<view-param name="popup-save" value="false" />
+		<view-param name="popup" value="reload" />
+	</action-view>
+
+	<cards name="event-card" model="com.axelor.event.db.Event" title="Event">
+		<field name="reference"></field>
+		<field name="startDate"></field>
+		<field name="endDate"></field>
+		<field name="venue"></field>
+		<field name="eventFees"></field>
+		<template><![CDATA[
+  			<div class="span4">
+    			<strong>{{reference}}</strong>
+    			<strong>{{venue}}</strong>
+    			<strong>{{startDate}}</strong>
+    			<strong>{{endDate}}</strong>
+    			<strong>{{eventFees}}</strong>
+  			</div>
+  		]]></template>
+	</cards>
+
+	<calendar name="event-timeline" model="com.axelor.event.db.Event"
+		eventStart="startDate" eventStop="endDate" title="Event Timeline">
+		<field name="reference" />
+	</calendar>
+
+	<action-method name="action-event-method-import-registration">
+		<call class="com.axelor.event.web.EventController" method="importRegistration" />
+	</action-method>
+
+	<action-method name="action-event-method-set-computational-fields">
+		<call class="com.axelor.event.web.EventRegistrationController"
+			method="setEventEntryandAmountCollected" />
+	</action-method>
+
+	<action-method name="action-event-method-date-validation">
+		<call class="com.axelor.event.web.EventController" method="checkDates" />
+	</action-method>
+
+	<action-condition
+		name="action-event-condition-registrationclose-date-validation">
+		<check field="registrationClose" if="registrationOpen &gt; registrationClose"
+			error="Registration close date should not behind the registration open date" />
+		<check field="registrationOpen" if="registrationClose &lt; registrationOpen"
+			error="Registration open date should not be ahead of registration open date" />
+	</action-condition>
+
+	<action-condition name="action-event-condition-enddate-date-validation">
+		<check field="endDate" if="startDate &gt; endDate"
+			error="End date should not behind the end date" />
+		<check field="startDate" if="endDate &lt; startDate"
+			error="Start date should not be ahead of end date" />
+	</action-condition>
+
+	<action-report name="action-event-report" design="event.rptdesign"
+		output="event-${date}${time}" format="pdf">
+		<param name="id" expr="eval: __self__?.id" />
+	</action-report>
+
+</object-views>
