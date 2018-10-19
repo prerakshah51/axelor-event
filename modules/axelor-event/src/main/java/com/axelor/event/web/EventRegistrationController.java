@@ -55,7 +55,7 @@ public class EventRegistrationController extends JpaSupport {
 	}
 
 	@Transactional
-	public void setEventEntryandAmountCollected(ActionRequest req, ActionResponse res) {
+	public void setEventComputationalData(ActionRequest req, ActionResponse res) {
 		String check = (String) req.getContext().get("check");
 		if (check == null) {
 			Event event = req.getContext().asType(Event.class);
@@ -66,7 +66,7 @@ public class EventRegistrationController extends JpaSupport {
 					if (eventRegSize > event.getCapacity()) {
 						res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
 					} else {
-						event = eventRegService.setEventEntryandAmountCollected1(eventReg, event);
+						event = eventRegService.setEventComputationalData(eventReg, event);
 						res.setValue("amountCollected", event.getAmountCollected());
 						res.setValue("totalEntry", event.getTotalEntry());
 						res.setValue("totalDiscount", event.getTotalDiscount());
@@ -88,7 +88,7 @@ public class EventRegistrationController extends JpaSupport {
 				if (event.getTotalEntry() + 1 > event.getCapacity()) {
 					res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
 				} else {
-					eventRegService.setEventEntryandAmountCollected(eventReg);
+					eventRegService.setEventComputationalData(eventReg);
 				}
 			}
 		}

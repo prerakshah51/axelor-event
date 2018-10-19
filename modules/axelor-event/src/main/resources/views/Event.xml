@@ -21,7 +21,7 @@
 		onLoad="action-event-method-set-computational-fields">
 		<toolbar>
 			<button name="importEventRegDetails" title="Import Registration"
-				onClick="action-event-view-import-registration-popup" hideIf="!id" />
+				onClick="action-event-view-import-registration-popup" icon="fa-upload" hideIf="!id" />
 			<button name="printReport" title="Print Event Details"
 				onClick="action-event-report" icon="fa-print" hideIf="!id" />
 			<button name="sendEmail" title="Send Email"
@@ -104,11 +104,11 @@
 
 	<action-method name="action-event-method-set-computational-fields">
 		<call class="com.axelor.event.web.EventRegistrationController"
-			method="setEventEntryandAmountCollected" />
+			method="setEventComputationalData" />
 	</action-method>
 
 	<action-method name="action-event-method-date-validation">
-		<call class="com.axelor.event.web.EventController" method="checkDates" />
+		<call class="com.axelor.event.web.EventController" method="checkEventDates" />
 	</action-method>
 
 	<action-condition

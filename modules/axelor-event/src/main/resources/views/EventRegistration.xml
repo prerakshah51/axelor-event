@@ -49,7 +49,7 @@
 	<action-method
 		name="action-event-registration-method-set-computational-fields">
 		<call class="com.axelor.event.web.EventRegistrationController"
-			method="setEventEntryandAmountCollected" />
+			method="setEventComputationalData" />
 	</action-method>
 
 	<action-method name="action-event-registration-method-email-validate">

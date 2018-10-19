@@ -93,7 +93,7 @@ public class EventController extends JpaSupport {
 		}
 	}
 
-	public Object importEventRegistrartion(Object bean, Map<String, Object> context) throws ValidationException {
+	public Object importRegistrartion(Object bean, Map<String, Object> context) throws ValidationException {
 		Event event = (Event) context.get("_event");
 		event.setTotalEntry(event.getTotalEntry() + 1);
 		if (event.getTotalEntry() <= event.getCapacity()) {
@@ -106,7 +106,7 @@ public class EventController extends JpaSupport {
 		return null;
 	}
 
-	public void checkDates(ActionRequest req, ActionResponse res) {
+	public void checkEventDates(ActionRequest req, ActionResponse res) {
 		Event event = req.getContext().asType(Event.class);
 		if (event.getStartDate() != null) {
 			if (event.getRegistrationOpen() != null) {
