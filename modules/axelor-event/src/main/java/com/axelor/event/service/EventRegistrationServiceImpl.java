@@ -10,6 +10,8 @@ import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
 import com.axelor.event.db.repo.EventRegistrationRepository;
 import com.axelor.event.db.repo.EventRepository;
+import com.axelor.event.exception.IExceptionEvent;
+import com.axelor.i18n.I18n;
 import com.google.inject.Inject;
 
 public class EventRegistrationServiceImpl implements EventRegistrationService {
@@ -58,20 +60,18 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
 
 	@Override
 	public Event setEventComputationalData(EventRegistration eventReg, Event event) {
-		if (event.getEventRegistration() != null) {
-			BigDecimal totalAmount = BigDecimal.ZERO;
-			BigDecimal totalDiscount = BigDecimal.ZERO;
-			int totalEntry = 0;
-			List<EventRegistration> eventRegList = event.getEventRegistration();
-			for (EventRegistration eventRegistration : eventRegList) {
-				totalAmount = totalAmount.add(eventRegistration.getAmount());
-				totalDiscount = totalDiscount.add(event.getEventFees().subtract(eventRegistration.getAmount()));
-				totalEntry = totalEntry + 1;
-			}
-			event.setAmountCollected(totalAmount);
-			event.setTotalDiscount(totalDiscount);
-			event.setTotalEntry(totalEntry);
+		BigDecimal totalAmount = BigDecimal.ZERO;
+		BigDecimal totalDiscount = BigDecimal.ZERO;
+		int totalEntry = 0;
+		List<EventRegistration> eventRegList = event.getEventRegistration();
+		for (EventRegistration eventRegistration : eventRegList) {
+			totalAmount = totalAmount.add(eventRegistration.getAmount());
+			totalDiscount = totalDiscount.add(event.getEventFees().subtract(eventRegistration.getAmount()));
+			totalEntry = totalEntry + 1;
 		}
+		event.setAmountCollected(totalAmount);
+		event.setTotalDiscount(totalDiscount);
+		event.setTotalEntry(totalEntry);
 		return event;
 	}
 
@@ -81,7 +81,7 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
 		LocalDate regOpen = event.getRegistrationOpen();
 		LocalDate regDate = eventReg.getRegistrationDate().toLocalDate();
 		if (regDate.isAfter(regClose) || regDate.isBefore(regOpen)) {
-			throw new ValidationException("Registration date is must between registration open and close dates");
+			throw new ValidationException(I18n.get(IExceptionEvent.REGISTRATION_DATE_BETWEEN));
 		}
 	}
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.axelor.apps.tool.file.TestFileTool" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-10-19T11:23:21" hostname="ws03" time="0.001">
+<testsuite name="com.axelor.apps.tool.file.TestFileTool" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-10-22T05:43:16" hostname="ws03" time="0.001">
   <properties/>
   <testcase name="create" classname="com.axelor.apps.tool.file.TestFileTool" time="0.001"/>
   <testcase name="create2" classname="com.axelor.apps.tool.file.TestFileTool" time="0.0"/>

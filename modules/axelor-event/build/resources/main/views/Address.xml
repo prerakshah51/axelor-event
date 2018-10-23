@@ -15,14 +15,14 @@
 
 	<form model="com.axelor.event.db.Address" title="Address" name="address-form"
 		width="large">
-		<panel title="Overview" css="panel-teal">
+		<panel title="Overview" css="panel-green">
 			<field name="flatHouseNumber"></field>
 			<field name="street"></field>
 			<field name="landmark"></field>
 			<field name="city"></field>
 			<field name="country"></field>
 		</panel>
-		<panel title="Full Address" css="panel-teal">
+		<panel title="Full Address" css="panel-green" sidebar="true">
 			<field name="fullName"></field>
 		</panel>
 	</form>

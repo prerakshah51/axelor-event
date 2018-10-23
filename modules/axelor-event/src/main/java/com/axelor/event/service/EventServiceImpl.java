@@ -25,7 +25,7 @@ public class EventServiceImpl implements EventService {
 
 	@Inject
 	EventRepository eventRepo;
-	
+
 	@Inject
 	EventRegistrationServiceImpl eventRegServiceImpl;
 
@@ -77,11 +77,13 @@ public class EventServiceImpl implements EventService {
 		}
 		return configFile;
 	}
-	
+
 	public EventRegistration setEventData(EventRegistration eventReg) {
 		Event event = eventRepo.find(eventReg.getEvent().getId());
-		//eventRegServiceImpl.checkEventRegistrationDate(event, eventReg);
 		eventReg = eventRegServiceImpl.setAmount(event, eventReg);
+		// if (eventReg != null && eventReg.getRegistrationDate() != null) {
+		// eventRegServiceImpl.checkEventRegistrationDate(event, eventReg);
+		// }
 		return eventReg;
 	}
 }

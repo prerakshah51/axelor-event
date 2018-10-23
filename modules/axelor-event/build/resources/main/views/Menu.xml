@@ -20,7 +20,7 @@
 		model="com.axelor.event.db.Event">
 		<view type="grid" name="event-grid" />
 		<view type="form" name="event-form" />
-		<view type="card" name="event-card" />
+		<view type="cards" name="event-cards"/>
 		<view type="calendar" name="event-timeline" />
 		<context name="json-enhance" expr="true" />
 	</action-view>

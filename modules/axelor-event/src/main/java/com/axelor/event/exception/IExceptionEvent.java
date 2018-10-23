@@ -12,4 +12,5 @@ public interface IExceptionEvent {
 	static final String EXCEEDS_CAPACITY = /* $$( */ "Event capacity exceeds" /* ) */;
 	static final String INVALID_EMAIL = /* $$( */ "This email id is not valid" /* ) */;
 	static final String BEFORE_DAYS = /* $$( */ "This 'before days' value is not possible" /* ) */;
+	static final String REGISTRATION_DATE_BETWEEN = /* $$( */ "Registration date is must between registration open and close date" /* ) */;
 }

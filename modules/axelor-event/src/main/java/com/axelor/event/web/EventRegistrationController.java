@@ -34,7 +34,7 @@ public class EventRegistrationController extends JpaSupport {
 		String check = (String) req.getContext().get("check");
 		if (check == null) {
 			Event event = req.getContext().getParent().asType(Event.class);
-			res.setAttr("event", "hidden", " ");
+			res.setAttr("event", "readonly", " ");
 			res.setValue("event", event);
 		}
 	}
@@ -59,22 +59,16 @@ public class EventRegistrationController extends JpaSupport {
 		String check = (String) req.getContext().get("check");
 		if (check == null) {
 			Event event = req.getContext().asType(Event.class);
-			if (event.getEventRegistration() != null) {
+			if (event.getEventRegistration() != null && !event.getEventRegistration().isEmpty()) {
 				int eventRegSize = event.getEventRegistration().size();
-				if (eventRegSize > 0) {
-					EventRegistration eventReg = event.getEventRegistration().get(eventRegSize - 1);
-					if (eventRegSize > event.getCapacity()) {
-						res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
-					} else {
-						event = eventRegService.setEventComputationalData(eventReg, event);
-						res.setValue("amountCollected", event.getAmountCollected());
-						res.setValue("totalEntry", event.getTotalEntry());
-						res.setValue("totalDiscount", event.getTotalDiscount());
-					}
+				EventRegistration eventReg = event.getEventRegistration().get(eventRegSize - 1);
+				if (eventRegSize > event.getCapacity()) {
+					res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
 				} else {
-					res.setValue("amountCollected", BigDecimal.ZERO);
-					res.setValue("totalEntry", 0);
-					res.setValue("totalDiscount", BigDecimal.ZERO);
+					event = eventRegService.setEventComputationalData(eventReg, event);
+					res.setValue("amountCollected", event.getAmountCollected());
+					res.setValue("totalEntry", event.getTotalEntry());
+					res.setValue("totalDiscount", event.getTotalDiscount());
 				}
 			} else {
 				res.setValue("amountCollected", BigDecimal.ZERO);
@@ -84,12 +78,10 @@ public class EventRegistrationController extends JpaSupport {
 		} else {
 			EventRegistration eventReg = req.getContext().asType(EventRegistration.class);
 			Event event = eventRepo.all().filter("self.reference = ?", eventReg.getEvent().getReference()).fetchOne();
-			if (event.getEventRegistration() != null) {
-				if (event.getTotalEntry() + 1 > event.getCapacity()) {
-					res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
-				} else {
-					eventRegService.setEventComputationalData(eventReg);
-				}
+			if (event.getTotalEntry() + 1 > event.getCapacity()) {
+				res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
+			} else {
+				eventRegService.setEventComputationalData(eventReg);
 			}
 		}
 	}

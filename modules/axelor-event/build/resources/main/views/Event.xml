@@ -18,17 +18,17 @@
 	<form model="com.axelor.event.db.Event" title="Event" name="event-form"
 		width="large"
 		onSave="action-event-method-date-validation,action-event-method-set-computational-fields"
-		onLoad="action-event-method-set-computational-fields">
+		onLoad="action-event-method-set-computational-fields,save">
 		<toolbar>
 			<button name="importEventRegDetails" title="Import Registration"
-				onClick="action-event-view-import-registration-popup" hideIf="!id" />
+				onClick="action-event-view-import-registration-popup" icon="fa-upload" hideIf="!id" />
 			<button name="printReport" title="Print Event Details"
 				onClick="action-event-report" icon="fa-print" hideIf="!id" />
 			<button name="sendEmail" title="Send Email"
 				onClick="com.axelor.event.web.EventController:sendEmail" icon="fa-envelope"
 				hideIf="!id" />
 		</toolbar>
-		<panel title="Overview" css="panel-teal">
+		<panel title="Overview" css="panel-green">
 			<field name="reference"></field>
 			<field name="startDate" onChange="action-event-condition-enddate-date-validation"></field>
 			<field name="endDate" onChange="action-event-condition-enddate-date-validation"></field>
@@ -41,17 +41,16 @@
 			<field name="eventFees"></field>
 			<field name="description" colSpan="12"></field>
 		</panel>
-		<panel title="Discount Details" css="panel-teal">
+		<panel title="Discount Details" css="panel-green">
 			<field name="discounts" colSpan="12" onChange="save"></field>
 		</panel>
-		<panel title="Event Registration" css="panel-teal">
-			<!-- <field name="eventRegistration" colSpan="12" onChange="action-event-method-set-computational-fields,save"></field> -->
+		<panel title="Event Registration" css="panel-green">
 			<field name="eventRegistration" colSpan="12"></field>
 		</panel>
-		<panel title="Computational Data" css="panel-teal">
-			<field name="totalEntry" colSpan="4"></field>
-			<field name="amountCollected" colSpan="4"></field>
-			<field name="totalDiscount" colSpan="4"></field>
+		<panel title="Computational Data" css="panel-green" sidebar="true">
+			<field name="totalEntry" colSpan="12"></field>
+			<field name="amountCollected" colSpan="12"></field>
+			<field name="totalDiscount" colSpan="12"></field>
 		</panel>
 	</form>
 
@@ -76,19 +75,19 @@
 		<view-param name="popup" value="reload" />
 	</action-view>
 
-	<cards name="event-card" model="com.axelor.event.db.Event" title="Event">
+	<cards name="event-cards" model="com.axelor.event.db.Event" title="Event">
 		<field name="reference"></field>
-		<field name="startDate"></field>
-		<field name="endDate"></field>
 		<field name="venue"></field>
+		<field name="registrationOpen"></field>
+		<field name="registrationClose"></field>
 		<field name="eventFees"></field>
 		<template><![CDATA[
-  			<div class="span4">
-    			<strong>{{reference}}</strong>
-    			<strong>{{venue}}</strong>
-    			<strong>{{startDate}}</strong>
-    			<strong>{{endDate}}</strong>
-    			<strong>{{eventFees}}</strong>
+  			<div>
+    			<h2><strong>{{reference}}</strong></h2><br>
+    			<strong>Venue: </strong>{{venue.fullName}}<br>
+    			<strong>Registartion Open Date: </strong>{{registrationOpen}}<br>
+    			<strong>Registartion Close Date: </strong>{{registrationClose}}<br>
+    			<strong>Event Fees: </strong>{{eventFees}}
   			</div>
   		]]></template>
 	</cards>
@@ -104,11 +103,11 @@
 
 	<action-method name="action-event-method-set-computational-fields">
 		<call class="com.axelor.event.web.EventRegistrationController"
-			method="setEventEntryandAmountCollected" />
+			method="setEventComputationalData" />
 	</action-method>
 
 	<action-method name="action-event-method-date-validation">
-		<call class="com.axelor.event.web.EventController" method="checkDates" />
+		<call class="com.axelor.event.web.EventController" method="checkEventDates" />
 	</action-method>
 
 	<action-condition

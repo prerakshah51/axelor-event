@@ -4,8 +4,11 @@
 	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
 
 	<module name="eventregistration" package="com.axelor.event.db" />
+	
+	<sequence name="eventRegSeq" initial="1" increment="1" padding="3" prefix="A" suffix="Z"/>
 
 	<entity name="EventRegistration" lang="java">
+		<string name="regId" sequence="eventRegSeq"></string>
 		<many-to-one name="event" ref="Event"></many-to-one>
 		<string name="name"></string>
 		<string name="email"></string>

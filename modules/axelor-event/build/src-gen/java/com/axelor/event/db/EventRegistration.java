@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 import com.axelor.auth.db.AuditableModel;
+import com.axelor.db.annotations.Sequence;
 import com.axelor.db.annotations.Widget;
 import com.google.common.base.MoreObjects;
 
@@ -30,6 +31,10 @@ public class EventRegistration extends AuditableModel {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EVENT_EVENT_REGISTRATION_SEQ")
 	@SequenceGenerator(name = "EVENT_EVENT_REGISTRATION_SEQ", sequenceName = "EVENT_EVENT_REGISTRATION_SEQ", allocationSize = 1)
 	private Long id;
+
+	@Widget(title = "RegId")
+	@Sequence("eventRegSeq")
+	private String regId;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Event event;
@@ -68,6 +73,14 @@ public class EventRegistration extends AuditableModel {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getRegId() {
+		return regId;
+	}
+
+	public void setRegId(String regId) {
+		this.regId = regId;
 	}
 
 	public Event getEvent() {
@@ -157,6 +170,7 @@ public class EventRegistration extends AuditableModel {
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
 			.add("id", getId())
+			.add("regId", getRegId())
 			.add("name", getName())
 			.add("email", getEmail())
 			.add("registrationDate", getRegistrationDate())

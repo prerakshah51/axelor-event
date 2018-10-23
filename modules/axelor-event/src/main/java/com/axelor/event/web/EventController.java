@@ -109,27 +109,23 @@ public class EventController extends JpaSupport {
 	public void checkEventDates(ActionRequest req, ActionResponse res) {
 		Event event = req.getContext().asType(Event.class);
 		if (event.getStartDate() != null) {
-			if (event.getRegistrationOpen() != null) {
-				if (event.getRegistrationOpen().isAfter(event.getStartDate().toLocalDate())) {
-					res.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE1));
-				}
+			if (event.getRegistrationOpen() != null
+					&& event.getRegistrationOpen().isAfter(event.getStartDate().toLocalDate())) {
+				res.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE1));
 			}
-			if (event.getRegistrationClose() != null) {
-				if (event.getRegistrationClose().isAfter(event.getStartDate().toLocalDate())) {
-					res.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE1));
-				}
+			if (event.getRegistrationClose() != null
+					&& event.getRegistrationClose().isAfter(event.getStartDate().toLocalDate())) {
+				res.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE1));
 			}
 		}
 		if (event.getEndDate() != null) {
-			if (event.getRegistrationOpen() != null) {
-				if (event.getRegistrationOpen().isAfter(event.getEndDate().toLocalDate())) {
-					res.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE2));
-				}
+			if (event.getRegistrationOpen() != null
+					&& event.getRegistrationOpen().isAfter(event.getEndDate().toLocalDate())) {
+				res.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE2));
 			}
-			if (event.getRegistrationClose() != null) {
-				if (event.getRegistrationClose().isAfter(event.getEndDate().toLocalDate())) {
-					res.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE2));
-				}
+			if (event.getRegistrationClose() != null
+					&& event.getRegistrationClose().isAfter(event.getEndDate().toLocalDate())) {
+				res.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE2));
 			}
 		}
 		if (event.getEventRegistration() != null && event.getEventRegistration().size() > 0) {
