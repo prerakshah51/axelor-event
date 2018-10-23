@@ -5,18 +5,28 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.validation.ValidationException;
 import org.apache.commons.io.IOUtils;
+
+import com.axelor.apps.message.db.Message;
+import com.axelor.apps.message.db.Template;
+import com.axelor.apps.message.db.repo.TemplateRepository;
+import com.axelor.apps.message.service.MessageService;
+import com.axelor.apps.message.service.TemplateMessageService;
 import com.axelor.data.Listener;
 import com.axelor.data.csv.CSVImporter;
 import com.axelor.db.Model;
 import com.axelor.event.db.EventRegistration;
+import com.axelor.event.db.repo.EventRegistrationRepository;
 import com.axelor.event.db.repo.EventRepository;
 import com.axelor.event.exception.IExceptionEvent;
+import com.axelor.exception.AxelorException;
 import com.axelor.i18n.I18n;
 import com.axelor.meta.MetaFiles;
 import com.axelor.meta.db.MetaFile;
+import com.axelor.meta.db.MetaModel;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.axelor.event.db.Event;
@@ -27,7 +37,19 @@ public class EventServiceImpl implements EventService {
 	EventRepository eventRepo;
 
 	@Inject
+	EventRegistrationRepository eventRegRepo;
+
+	@Inject
 	EventRegistrationServiceImpl eventRegServiceImpl;
+
+	@Inject
+	TemplateMessageService templateMessageService;
+
+	@Inject
+	MessageService messageService;
+
+	@Inject
+	TemplateRepository templateRepo;
 
 	@Override
 	public void importRegistration(MetaFile dataFile, Event event) throws IOException {
@@ -85,5 +107,21 @@ public class EventServiceImpl implements EventService {
 		// eventRegServiceImpl.checkEventRegistrationDate(event, eventReg);
 		// }
 		return eventReg;
+	}
+
+	@Override
+	public void sendEmail(Event event, MetaModel metaModel) throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException, AxelorException, IOException {
+		Template template = templateRepo.all().filter("self.metaModel = ?", metaModel.getId()).fetchOne();
+		List<EventRegistration> eventRegs = event.getEventRegistration();
+		for (EventRegistration eventRegistration : eventRegs) {
+			if (eventRegistration.getEmail() != null && eventRegistration.getEmailCheck() == false) {
+				template.setToRecipients(eventRegistration.getEmail());
+				Message message = templateMessageService.generateMessage(event, template);
+				messageService.sendMessage(message);
+				eventRegistration.setEmailCheck(true);
+				eventRegRepo.save(eventRegistration);
+			}
+		}
 	}
 }

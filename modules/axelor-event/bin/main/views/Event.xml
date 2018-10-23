@@ -24,7 +24,8 @@
 		onLoad="action-event-method-set-computational-fields,save">
 		<toolbar>
 			<button name="importEventRegDetails" title="Import Registration"
-				onClick="action-event-view-import-registration-popup" icon="fa-upload" hideIf="!id" />
+				onClick="action-event-view-import-registration-popup" icon="fa-upload"
+				hideIf="!id" />
 			<button name="printReport" title="Print Event Details"
 				onClick="action-event-report" icon="fa-print" hideIf="!id" />
 			<button name="sendEmail" title="Send Email"
@@ -78,20 +79,24 @@
 		<view-param name="popup" value="reload" />
 	</action-view>
 
-	<cards name="event-cards" model="com.axelor.event.db.Event" title="Event">
+	<cards name="event-cards" model="com.axelor.event.db.Event"
+		title="Event">
 		<field name="reference"></field>
 		<field name="venue"></field>
-		<field name="registrationOpen"></field>
-		<field name="registrationClose"></field>
+		<field name="capacity"></field>
 		<field name="eventFees"></field>
 		<template><![CDATA[
-  			<div>
-    			<h2><strong>{{reference}}</strong></h2><br>
-    			<strong>Venue: </strong>{{venue.fullName}}<br>
-    			<strong>Registartion Open Date: </strong>{{registrationOpen}}<br>
-    			<strong>Registartion Close Date: </strong>{{registrationClose}}<br>
-    			<strong>Event Fees: </strong>{{eventFees}}
-  			</div>
+		    <div>
+		    	<h2>{{reference}}</h2>
+		    </div>
+			<div>
+				<div>
+					<h4>Event Details</h4>
+				</div>
+			    <strong>Venue :</strong> {{venue.fullName}}<br/>
+			    <strong>Capacity :</strong> {{capacity}}<br/>
+			    <strong>Event fees (in INR) :</strong> {{eventFees}}<br/>
+			</div>
   		]]></template>
 	</cards>
 

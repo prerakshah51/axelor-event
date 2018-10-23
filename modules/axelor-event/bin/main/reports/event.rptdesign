@@ -3084,8 +3084,7 @@ where public.event_event_registration.event = ?]]></xml-property>
                                 <property name="borderTopWidth">thin</property>
                                 <data id="476">
                                     <structure name="dateTimeFormat">
-                                        <property name="category">Custom</property>
-                                        <property name="pattern">dd/MM/yy</property>
+                                        <property name="category">Unformatted</property>
                                     </structure>
                                     <property name="dataSet">Event</property>
                                     <list-property name="boundDataColumns">
@@ -3153,8 +3152,7 @@ where public.event_event_registration.event = ?]]></xml-property>
                                 <property name="borderTopWidth">thin</property>
                                 <data id="477">
                                     <structure name="dateTimeFormat">
-                                        <property name="category">Custom</property>
-                                        <property name="pattern">dd/MM/yy</property>
+                                        <property name="category">Unformatted</property>
                                     </structure>
                                     <property name="dataSet">Event</property>
                                     <list-property name="boundDataColumns">
@@ -3222,8 +3220,7 @@ where public.event_event_registration.event = ?]]></xml-property>
                                 <property name="borderTopWidth">thin</property>
                                 <data id="478">
                                     <structure name="dateTimeFormat">
-                                        <property name="category">Custom</property>
-                                        <property name="pattern">dd/MM/yy</property>
+                                        <property name="category">Unformatted</property>
                                     </structure>
                                     <property name="dataSet">Event</property>
                                     <list-property name="boundDataColumns">
@@ -3291,8 +3288,7 @@ where public.event_event_registration.event = ?]]></xml-property>
                                 <property name="borderTopWidth">thin</property>
                                 <data id="479">
                                     <structure name="dateTimeFormat">
-                                        <property name="category">Custom</property>
-                                        <property name="pattern">dd/MM/yy</property>
+                                        <property name="category">Unformatted</property>
                                     </structure>
                                     <property name="dataSet">Event</property>
                                     <list-property name="boundDataColumns">

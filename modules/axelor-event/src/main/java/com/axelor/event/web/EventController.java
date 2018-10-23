@@ -7,11 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.quartz.xml.ValidationException;
-import com.axelor.apps.message.db.Message;
-import com.axelor.apps.message.db.Template;
-import com.axelor.apps.message.db.repo.TemplateRepository;
-import com.axelor.apps.message.service.MessageService;
-import com.axelor.apps.message.service.TemplateMessageService;
 import com.axelor.db.JpaSupport;
 import com.axelor.event.db.Event;
 import com.axelor.event.db.EventRegistration;
@@ -45,33 +40,14 @@ public class EventController extends JpaSupport {
 	EventRegistrationRepository eventRegRepo;
 
 	@Inject
-	TemplateMessageService templateMessageService;
-
-	@Inject
-	MessageService messageService;
-
-	@Inject
 	MetaModelRepository metaModelRepo;
 
-	@Inject
-	TemplateRepository templateRepo;
-
 	@Transactional
-	public void sendEmail(ActionRequest request, ActionResponse response) throws ClassNotFoundException, InstantiationException,
-			IllegalAccessException, AxelorException, IOException {
+	public void sendEmail(ActionRequest request, ActionResponse response) throws ClassNotFoundException,
+			InstantiationException, IllegalAccessException, AxelorException, IOException {
 		Event event = request.getContext().asType(Event.class);
 		MetaModel metaModel = metaModelRepo.all().filter("self.fullName = ?", request.getModel()).fetchOne();
-		Template template = templateRepo.all().filter("self.metaModel = ?", metaModel.getId()).fetchOne();
-		List<EventRegistration> eventRegs = event.getEventRegistration();
-		for (EventRegistration eventRegistration : eventRegs) {
-			if (eventRegistration.getEmail() != null && eventRegistration.getEmailCheck() == false) {
-				template.setToRecipients(eventRegistration.getEmail());
-				Message message = templateMessageService.generateMessage(event, template);
-				messageService.sendMessage(message);
-				eventRegistration.setEmailCheck(true);
-				eventRegRepo.save(eventRegistration);
-			}
-		}
+		eventService.sendEmail(event, metaModel);
 	}
 
 	@SuppressWarnings("unchecked")
