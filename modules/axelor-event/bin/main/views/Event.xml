@@ -13,6 +13,9 @@
 		<field name="registrationClose"></field>
 		<field name="capacity"></field>
 		<field name="eventFees"></field>
+		<field name="totalEntry"></field>
+		<field name="amountCollected"></field>
+		<field name="totalDiscount"></field>
 	</grid>
 
 	<form model="com.axelor.event.db.Event" title="Event" name="event-form"

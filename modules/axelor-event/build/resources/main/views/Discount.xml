@@ -12,11 +12,11 @@
 
 	<form model="com.axelor.event.db.Discount" title="Discount" name="discount-form"
 		width="large">
-		<panel title="Overview" css="panel-green">
+		<panel title="Discount Details">
 			<field name="beforeDays" onChange="action-discount-method-check-before-days"></field>
 			<field name="discountPercentage" onChange="action-discount-method-set-discount-amount"></field>
 		</panel>
-		<panel title="Discount Details" css="panel-green" sidebar="true">
+		<panel title="Discount Amount" sidebar="true">
 			<field name="discountAmount" readonly="true"></field>
 		</panel>
 	</form>

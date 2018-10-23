@@ -57,10 +57,10 @@ public class EventController extends JpaSupport {
 	TemplateRepository templateRepo;
 
 	@Transactional
-	public void sendEmail(ActionRequest req, ActionResponse res) throws ClassNotFoundException, InstantiationException,
+	public void sendEmail(ActionRequest request, ActionResponse response) throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException, AxelorException, IOException {
-		Event event = req.getContext().asType(Event.class);
-		MetaModel metaModel = metaModelRepo.all().filter("self.fullName = ?", req.getModel()).fetchOne();
+		Event event = request.getContext().asType(Event.class);
+		MetaModel metaModel = metaModelRepo.all().filter("self.fullName = ?", request.getModel()).fetchOne();
 		Template template = templateRepo.all().filter("self.metaModel = ?", metaModel.getId()).fetchOne();
 		List<EventRegistration> eventRegs = event.getEventRegistration();
 		for (EventRegistration eventRegistration : eventRegs) {
@@ -106,26 +106,26 @@ public class EventController extends JpaSupport {
 		return null;
 	}
 
-	public void checkEventDates(ActionRequest req, ActionResponse res) {
-		Event event = req.getContext().asType(Event.class);
+	public void checkEventDates(ActionRequest request, ActionResponse response) {
+		Event event = request.getContext().asType(Event.class);
 		if (event.getStartDate() != null) {
 			if (event.getRegistrationOpen() != null
 					&& event.getRegistrationOpen().isAfter(event.getStartDate().toLocalDate())) {
-				res.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE1));
+				response.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE1));
 			}
 			if (event.getRegistrationClose() != null
 					&& event.getRegistrationClose().isAfter(event.getStartDate().toLocalDate())) {
-				res.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE1));
+				response.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE1));
 			}
 		}
 		if (event.getEndDate() != null) {
 			if (event.getRegistrationOpen() != null
 					&& event.getRegistrationOpen().isAfter(event.getEndDate().toLocalDate())) {
-				res.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE2));
+				response.setError(I18n.get(IExceptionEvent.REGISTRATION_OPEN_DATE2));
 			}
 			if (event.getRegistrationClose() != null
 					&& event.getRegistrationClose().isAfter(event.getEndDate().toLocalDate())) {
-				res.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE2));
+				response.setError(I18n.get(IExceptionEvent.REGISTRATION_CLOSE_DATE2));
 			}
 		}
 		if (event.getEventRegistration() != null && event.getEventRegistration().size() > 0) {
@@ -135,7 +135,7 @@ public class EventController extends JpaSupport {
 			for (EventRegistration eventRegistration : eventRegList) {
 				LocalDate regDate = eventRegistration.getRegistrationDate().toLocalDate();
 				if (regDate.isAfter(regCloseDate) || regDate.isBefore(regOpenDate)) {
-					res.setError(I18n.get(IExceptionEvent.REGISTRATION_DATE) + eventRegistration.getName());
+					response.setError(I18n.get(IExceptionEvent.REGISTRATION_DATE) + eventRegistration.getName());
 				}
 			}
 		}

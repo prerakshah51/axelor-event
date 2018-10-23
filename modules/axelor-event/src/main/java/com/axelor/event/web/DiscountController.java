@@ -11,21 +11,21 @@ import com.axelor.rpc.ActionResponse;
 
 public class DiscountController {
 
-	public void checkBeforeDays(ActionRequest req, ActionResponse res) {
-		Event event = req.getContext().getParent().asType(Event.class);
-		Discount discount = req.getContext().asType(Discount.class);
+	public void checkBeforeDays(ActionRequest request, ActionResponse response) {
+		Event event = request.getContext().getParent().asType(Event.class);
+		Discount discount = request.getContext().asType(Discount.class);
 		long openCloseDuration = ChronoUnit.DAYS.between(event.getRegistrationOpen(), event.getRegistrationClose());
 		long beforeDays = discount.getBeforeDays();
 		if (beforeDays > openCloseDuration || beforeDays < 0) {
-			res.setError(I18n.get(IExceptionEvent.BEFORE_DAYS));
+			response.setError(I18n.get(IExceptionEvent.BEFORE_DAYS));
 		}
 	}
 
-	public void setDiscountAmount(ActionRequest req, ActionResponse res) {
-		Event event = req.getContext().getParent().asType(Event.class);
-		Discount discount = req.getContext().asType(Discount.class);
+	public void setDiscountAmount(ActionRequest request, ActionResponse response) {
+		Event event = request.getContext().getParent().asType(Event.class);
+		Discount discount = request.getContext().asType(Discount.class);
 		BigDecimal discountAmount = discount.getDiscountPercentage().multiply(event.getEventFees())
 				.divide(new BigDecimal(100));
-		res.setValue("discountAmount", discountAmount);
+		response.setValue("discountAmount", discountAmount);
 	}
 }

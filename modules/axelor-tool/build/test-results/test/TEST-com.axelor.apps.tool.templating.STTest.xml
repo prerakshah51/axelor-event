@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.axelor.apps.tool.templating.STTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2018-10-22T05:42:59" hostname="ws03" time="15.593">
+<testsuite name="com.axelor.apps.tool.templating.STTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2018-10-23T06:25:55" hostname="ws03" time="15.384">
   <properties/>
-  <testcase name="test1" classname="com.axelor.apps.tool.templating.STTest" time="0.163"/>
-  <testcase name="test2" classname="com.axelor.apps.tool.templating.STTest" time="2.375"/>
-  <testcase name="test3" classname="com.axelor.apps.tool.templating.STTest" time="13.055"/>
+  <testcase name="test1" classname="com.axelor.apps.tool.templating.STTest" time="0.168"/>
+  <testcase name="test2" classname="com.axelor.apps.tool.templating.STTest" time="2.327"/>
+  <testcase name="test3" classname="com.axelor.apps.tool.templating.STTest" time="12.888"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

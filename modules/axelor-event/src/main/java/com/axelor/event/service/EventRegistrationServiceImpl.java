@@ -50,7 +50,7 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
 	@Override
 	public void setEventComputationalData(EventRegistration eventReg) {
 		Event event = eventRepo.all().filter("self.reference = ?", eventReg.getEvent().getReference()).fetchOne();
-		Event tempEvent = eventRepo.all().filter("self.reference = ?", eventReg.getEvent().getReference()).fetchOne();
+		Event tempEvent = event;
 		BigDecimal totalDiscount = event.getEventFees().subtract(eventReg.getAmount());
 		tempEvent.setTotalEntry(event.getTotalEntry() + 1);
 		tempEvent.setAmountCollected(event.getAmountCollected().add(eventReg.getAmount()));

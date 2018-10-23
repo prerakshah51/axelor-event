@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.axelor.apps.tool.crypto.AESTest2" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-10-22T05:43:15" hostname="ws03" time="0.187">
+<testsuite name="com.axelor.apps.tool.crypto.AESTest2" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-10-23T06:26:10" hostname="ws03" time="0.188">
   <properties/>
-  <testcase name="test" classname="com.axelor.apps.tool.crypto.AESTest2" time="0.187"/>
+  <testcase name="test" classname="com.axelor.apps.tool.crypto.AESTest2" time="0.188"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

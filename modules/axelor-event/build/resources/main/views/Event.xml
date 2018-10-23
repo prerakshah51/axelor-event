@@ -13,6 +13,9 @@
 		<field name="registrationClose"></field>
 		<field name="capacity"></field>
 		<field name="eventFees"></field>
+		<field name="totalEntry"></field>
+		<field name="amountCollected"></field>
+		<field name="totalDiscount"></field>
 	</grid>
 
 	<form model="com.axelor.event.db.Event" title="Event" name="event-form"
@@ -28,7 +31,7 @@
 				onClick="com.axelor.event.web.EventController:sendEmail" icon="fa-envelope"
 				hideIf="!id" />
 		</toolbar>
-		<panel title="Overview" css="panel-green">
+		<panel title="Overview">
 			<field name="reference"></field>
 			<field name="startDate" onChange="action-event-condition-enddate-date-validation"></field>
 			<field name="endDate" onChange="action-event-condition-enddate-date-validation"></field>
@@ -41,13 +44,13 @@
 			<field name="eventFees"></field>
 			<field name="description" colSpan="12"></field>
 		</panel>
-		<panel title="Discount Details" css="panel-green">
+		<panel title="Discount Details">
 			<field name="discounts" colSpan="12" onChange="save"></field>
 		</panel>
-		<panel title="Event Registration" css="panel-green">
+		<panel title="Event Registrations">
 			<field name="eventRegistration" colSpan="12"></field>
 		</panel>
-		<panel title="Computational Data" css="panel-green" sidebar="true">
+		<panel title="Computational Data" sidebar="true">
 			<field name="totalEntry" colSpan="12"></field>
 			<field name="amountCollected" colSpan="12"></field>
 			<field name="totalDiscount" colSpan="12"></field>

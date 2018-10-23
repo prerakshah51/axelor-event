@@ -8,7 +8,7 @@
 	<sequence name="eventRegSeq" initial="1" increment="1" padding="3" prefix="A" suffix="Z"/>
 
 	<entity name="EventRegistration" lang="java">
-		<string name="regId" sequence="eventRegSeq"></string>
+		<string name="regId" sequence="eventRegSeq" title="RegId"></string>
 		<many-to-one name="event" ref="Event"></many-to-one>
 		<string name="name"></string>
 		<string name="email"></string>

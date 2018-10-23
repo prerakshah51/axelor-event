@@ -30,70 +30,70 @@ public class EventRegistrationController extends JpaSupport {
 		return response;
 	}
 
-	public void hideEventField(ActionRequest req, ActionResponse res) {
-		String check = (String) req.getContext().get("check");
+	public void hideEventField(ActionRequest request, ActionResponse response) {
+		String check = (String) request.getContext().get("check");
 		if (check == null) {
-			Event event = req.getContext().getParent().asType(Event.class);
-			res.setAttr("event", "readonly", " ");
-			res.setValue("event", event);
+			Event event = request.getContext().getParent().asType(Event.class);
+			response.setValue("event", event);
+			response.setReadonly("event", true);
 		}
 	}
 
-	public void setAmount(ActionRequest req, ActionResponse res) {
-		String check = (String) req.getContext().get("check");
+	public void setAmount(ActionRequest request, ActionResponse response) {
+		String check = (String) request.getContext().get("check");
 		if (check == null) {
-			Event event = req.getContext().getParent().asType(Event.class);
-			EventRegistration eventReg = req.getContext().asType(EventRegistration.class);
+			Event event = request.getContext().getParent().asType(Event.class);
+			EventRegistration eventReg = request.getContext().asType(EventRegistration.class);
 			eventReg = eventRegService.setAmount(event, eventReg);
-			res.setValue("amount", eventReg.getAmount());
+			response.setValue("amount", eventReg.getAmount());
 		} else {
-			EventRegistration eventReg = req.getContext().asType(EventRegistration.class);
+			EventRegistration eventReg = request.getContext().asType(EventRegistration.class);
 			Event event = eventRepo.all().filter("self.reference = ?", eventReg.getEvent().getReference()).fetchOne();
 			eventReg = eventRegService.setAmount(event, eventReg);
-			res.setValue("amount", eventReg.getAmount());
+			response.setValue("amount", eventReg.getAmount());
 		}
 	}
 
 	@Transactional
-	public void setEventComputationalData(ActionRequest req, ActionResponse res) {
-		String check = (String) req.getContext().get("check");
+	public void setEventComputationalData(ActionRequest request, ActionResponse response) {
+		String check = (String) request.getContext().get("check");
 		if (check == null) {
-			Event event = req.getContext().asType(Event.class);
+			Event event = request.getContext().asType(Event.class);
 			if (event.getEventRegistration() != null && !event.getEventRegistration().isEmpty()) {
 				int eventRegSize = event.getEventRegistration().size();
 				EventRegistration eventReg = event.getEventRegistration().get(eventRegSize - 1);
 				if (eventRegSize > event.getCapacity()) {
-					res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
+					response.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
 				} else {
 					event = eventRegService.setEventComputationalData(eventReg, event);
-					res.setValue("amountCollected", event.getAmountCollected());
-					res.setValue("totalEntry", event.getTotalEntry());
-					res.setValue("totalDiscount", event.getTotalDiscount());
+					response.setValue("amountCollected", event.getAmountCollected());
+					response.setValue("totalEntry", event.getTotalEntry());
+					response.setValue("totalDiscount", event.getTotalDiscount());
 				}
 			} else {
-				res.setValue("amountCollected", BigDecimal.ZERO);
-				res.setValue("totalEntry", 0);
-				res.setValue("totalDiscount", BigDecimal.ZERO);
+				response.setValue("amountCollected", BigDecimal.ZERO);
+				response.setValue("totalEntry", 0);
+				response.setValue("totalDiscount", BigDecimal.ZERO);
 			}
 		} else {
-			EventRegistration eventReg = req.getContext().asType(EventRegistration.class);
+			EventRegistration eventReg = request.getContext().asType(EventRegistration.class);
 			Event event = eventRepo.all().filter("self.reference = ?", eventReg.getEvent().getReference()).fetchOne();
 			if (event.getTotalEntry() + 1 > event.getCapacity()) {
-				res.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
+				response.setError(I18n.get(IExceptionEvent.EXCEEDS_CAPACITY));
 			} else {
 				eventRegService.setEventComputationalData(eventReg);
 			}
 		}
 	}
 
-	public void checkEventRegistrationDate(ActionRequest req, ActionResponse res) {
-		String check = (String) req.getContext().get("check");
+	public void checkEventRegistrationDate(ActionRequest request, ActionResponse response) {
+		String check = (String) request.getContext().get("check");
 		if (check == null) {
-			Event event = req.getContext().getParent().asType(Event.class);
-			EventRegistration eventReg = req.getContext().asType(EventRegistration.class);
+			Event event = request.getContext().getParent().asType(Event.class);
+			EventRegistration eventReg = request.getContext().asType(EventRegistration.class);
 			eventRegService.checkEventRegistrationDate(event, eventReg);
 		} else {
-			EventRegistration eventReg = req.getContext().asType(EventRegistration.class);
+			EventRegistration eventReg = request.getContext().asType(EventRegistration.class);
 			Event event = eventRepo.all().filter("self.reference = ?", eventReg.getEvent().getReference()).fetchOne();
 			eventRegService.checkEventRegistrationDate(event, eventReg);
 		}

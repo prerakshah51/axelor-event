@@ -21,23 +21,23 @@
 		onNew="action-event-registration-method-hide-event-field"
 		onSave="action-event-registration-method-date-validation,action-event-registration-method-set-computational-fields"
 		width="large">
-		<panel title="Select Event" css="panel-green">
-			<field name="regId" readonly="true"></field>
+		<panel title="Registration Sequence" sidebar="true" showIf="id">
+			<field name="regId" colSpan="12" readonly="true" widget="info-button"></field>
+		</panel>
+		<panel title="Select Event">
 			<field name="event" colSpan="12"></field>
 		</panel>
-		<panel title="Registration Details" css="panel-green">
+		<panel title="Registration Details">
 			<field name="name"></field>
 			<field name="email" onChange="action-event-registration-method-email-validate"></field>
 			<field name="address" colSpan="12"></field>
 		</panel>
-		<panel title="Registration Date" css="panel-green">
+		<panel title="Registration Date and Payment">
 			<field name="registrationDate"
 				onChange="action-event-registration-method-date-validation,action-event-registration-method-set-amount"></field>
-		</panel>
-		<panel title="Registration Amount" css="panel-green" sidebar="true">
 			<field name="amount"></field>
 		</panel>
-		<panel title="Mail Status" css="panel-green" sidebar="true">
+		<panel title="Email Status" sidebar="true">
 			<field name="emailCheck" readonly="true" widget="boolean-switch"></field>
 		</panel>
 	</form>
